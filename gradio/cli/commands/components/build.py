@@ -6,7 +6,7 @@ import subprocess
 from pathlib import Path
 from typing import Annotated
 
-import semantic_version
+from packaging.version import parse as parse_version
 import typer
 from tomlkit import dump, parse
 
@@ -79,7 +79,7 @@ def _build(
             ) from e
         if bump_version:
             pyproject_toml = parse((path / "pyproject.toml").read_text())
-            version = semantic_version.Version(
+            version = parse_version(
                 pyproject_toml["project"]["version"]  # type: ignore
             ).next_patch()
             live.update(

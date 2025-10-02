@@ -6,7 +6,8 @@ import tempfile
 from pathlib import Path
 from typing import Annotated
 
-import semantic_version
+from packaging.version import parse as parse_version
+from packaging.version import parse as parse_version
 from huggingface_hub import HfApi
 from rich import print
 from rich.console import Console
@@ -44,7 +45,7 @@ def _get_max_version(distribution_files: list[Path]) -> str | None:
         # better safe than sorry
         if version:
             try:
-                versions.append(semantic_version.Version(version))
+               versions.append(parse_version(version))
             except ValueError:
                 return None
     return str(max(versions)) if versions else None
@@ -112,7 +113,7 @@ def _publish(
     ]
     wheel_file = max(
         (p for p in distribution_files if p.suffix == ".whl"),
-        key=lambda s: semantic_version.Version(str(s.name).split("-")[1]),
+        key=lambda s: parse_version(str(s.name).split("-")[1]),
     )
     if not wheel_file:
         raise ValueError(

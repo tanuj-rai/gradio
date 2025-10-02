@@ -7,7 +7,6 @@ from pathlib import Path
 from typing import Annotated
 
 from packaging.version import parse as parse_version
-from packaging.version import parse as parse_version
 from huggingface_hub import HfApi
 from rich import print
 from rich.console import Console
